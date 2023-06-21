@@ -9,6 +9,9 @@ def realized_var(rt:np.array):
     return RV
 
 def bipower_var(rt : np.array):
+    """
+    Calculate bipower variance of the returns
+    """
     M = len(rt)
     BV = (np.pi/2) * (M/(M-1)) * np.sum(np.abs(rt[1:] *np.abs(rt[:-1])))
     return BV
@@ -98,7 +101,7 @@ def TMIN(rt : np.array):
     MinRQ = (np.pi/(3*np.pi-8))* (M**2/(M-1)) *np.sum(temp**4)
     
     numerator = 1 - (MinRV/RV)
-    denumerator = np.sqrt(1.81/M) * max(1,(MinRQ/(MinRV**2)))
+    denumerator = np.sqrt((1.81/M) * max(1,(MinRQ/(MinRV**2))))
 
     test = numerator / denumerator
     return test
@@ -179,7 +182,7 @@ def ASJ(rt : np.array):
                   "High-frequency jump tests: Which test should we use?." Journal of econometrics 219.2 (2020): 478-487.
     """
     M = len(rt)
-    K= 3
+    K= 10
     temp = np.multiply(np.abs(rt[:-1]), np.abs(rt[1:]))
     Vti = np.zeros(M-K-1)
     
@@ -219,7 +222,7 @@ def ABD(rt : np.array):
     BV = bipower_var(rt)
     
     vals = rt / np.sqrt(BV/M)
-    return np.abs(np.max(vals))
+    return np.max(np.abs(vals))
 
 def LM(rt):
     """
@@ -229,7 +232,7 @@ def LM(rt):
                   "High-frequency jump tests: Which test should we use?." Journal of econometrics 219.2 (2020): 478-487.
     """
     M = len(rt)
-    K = 2
+    K = 10
     
     
     temp = np.multiply(np.abs(rt[:-1]), np.abs(rt[1:]))
